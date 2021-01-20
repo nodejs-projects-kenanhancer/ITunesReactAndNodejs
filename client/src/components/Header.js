@@ -1,10 +1,10 @@
 import React from "react";
-import { H1, Input, P } from "./styles";
+import { H1, Input, P, SPAN } from "./styles";
 import { Box, Row, Column } from "./layout";
 import { ITunesContext } from "../contextHooks";
 
 export function Header() {
-    const { limit, filter, setFilter } = React.useContext(ITunesContext);
+    const { limit, genres, genre, filter, setFilter } = React.useContext(ITunesContext);
 
     const handleInputText = (e) => setFilter(e.target.value.toLowerCase());
 
@@ -13,8 +13,8 @@ export function Header() {
             <Row>
                 <Column xs={12} sm={5} md={6} lg={7} xl={8} px={{ xs: "0px" }}>
                     <Box as="header" role="banner">
-                        <H1>Albums list</H1>
-                        <P mt="5px">Top{limit} (USA)</P>
+                        <H1>Current iTunes Top {limit} (USA) Albums - <SPAN textTransform="capitalize">{genre}</SPAN></H1>
+                        <P mt="5px">Top {limit} (USA)</P>
                     </Box>
                 </Column>
                 <Column xs={12} sm={7} md={6} lg={5} xl={4} mt={{ xs: "15px" }} px={{ xs: "0px" }}>

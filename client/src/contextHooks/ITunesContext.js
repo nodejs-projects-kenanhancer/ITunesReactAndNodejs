@@ -2,9 +2,23 @@ import React from "react";
 import {iTunesActions, iTunesReducer} from "../reducerHooks/iTunesReducer";
 import {executeAsync} from "../httpRequestHandler";
 
+const genreIds = {
+    // genre IDs for iTunes queries
+    all: -1,
+    alternative: 20,
+    blues: 2,
+    country: 6,
+    pop: 14,
+    rock: 21,
+    rb: 15,
+    hipHop: 18
+};
+
 const initialState = {
     limit: parseInt(process.env.REACT_APP_LIMIT, 10),
     filter: "",
+    genre: "all",
+    genres: genreIds,
     albums: {},
     filteredAlbums: [],
     selectedAlbum: {},
@@ -19,12 +33,12 @@ export const ITunesContextConsumer = ITunesContext.Consumer;
 
 const Env = {
     PORT: parseInt(process.env.PORT, 10),
-    TOP_ALBUMS_URL: (limit) => `${process.env.REACT_APP_TOP_ALBUMS_URL}/limit=${limit}/json`,
-    TOP_SONGS_URL: (limit) => `${process.env.REACT_APP_TOP_SONGS_URL}/limit=${limit}/json`
+    TOP_ALBUMS_URL: (limit, genre) => `${process.env.REACT_APP_TOP_ALBUMS_URL}/limit=${limit}${(genre && `/genre=${genre}`) || ''}/json`,
+    TOP_SONGS_URL: (limit, genre) => `${process.env.REACT_APP_TOP_SONGS_URL}/limit=${limit}${(genre && `/genre=${genre}`) || ''}/json`
 };
 
-const loadAlbumsFromDownstream = async (limit, albumSetter) => {
-    const url = Env.TOP_ALBUMS_URL(limit);
+const loadAlbumsFromDownstream = async (limit, genre, albumSetter) => {
+    const url = Env.TOP_ALBUMS_URL(limit, genre);
 
     const requestArgs = {
         method: "GET",
@@ -45,6 +59,10 @@ export const ITunesContextProvider = ({children}) => {
 
     const setFilter = (filter) => dispatchITunes({type: iTunesActions.SET_FILTER, filter});
 
+    const setGenre = (genre) => {
+        dispatchITunes({type: iTunesActions.SET_GENRE, genre});
+    }
+
     const selectAlbum = (albumJson) => {
         dispatchITunes({type: iTunesActions.OPEN_POPUP, selectedAlbum: JSON.parse(albumJson)});
 
@@ -60,9 +78,9 @@ export const ITunesContextProvider = ({children}) => {
     React.useLayoutEffect(() => {
         const albumSetter = (albums) => dispatchITunes({type: iTunesActions.SET_ALBUMS, albums});
 
-        loadAlbumsFromDownstream(itunesState.limit, albumSetter);
+        loadAlbumsFromDownstream(itunesState.limit, itunesState.genres[itunesState.genre], albumSetter);
 
-    }, [itunesState.loading, itunesState.limit]);
+    }, [itunesState.loading, itunesState.limit, itunesState.genre]);
 
 
     return <ITunesContext.Provider value={{
@@ -74,9 +92,12 @@ export const ITunesContextProvider = ({children}) => {
         loading: itunesState.loading,
         error: itunesState.error,
         popupState: itunesState.popupState,
+        genre: itunesState.genre,
+        genres: itunesState.genres,
         selectAlbum,
         closePopup,
         setFilter,
+        setGenre,
         loadAlbums
     }}>{children}</ITunesContext.Provider>;
 };

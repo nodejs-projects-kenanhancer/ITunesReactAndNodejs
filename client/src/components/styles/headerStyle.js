@@ -29,3 +29,13 @@ export const Input = styled.input`
     font-size: 16px;
   }
 `;
+
+export const Select = styled.select`
+  width: 100%;
+  min-height: 34px;
+  font-size: calc(16px + (18 - 16) * ((100vw - 320px) / (1700 - 320)));
+  padding: 0 10px;
+  border: 1px solid #c1c1c1;
+  border-radius: 5px;
+  text-transform: capitalize;
+`;

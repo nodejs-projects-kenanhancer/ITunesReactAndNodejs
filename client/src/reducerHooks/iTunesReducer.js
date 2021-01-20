@@ -3,6 +3,7 @@ export const iTunesActions = {
     SET_FILTER: "SET_FILTER",
     SET_ALBUMS: "SET_ALBUMS",
     SET_FILTERED_ALBUMS: "SET_FILTERED_ALBUMS",
+    SET_GENRE: "SET_GENRE",
     OPEN_POPUP: "OPEN_POPUP",
     POPUP_OPENED: "POPUP_OPENED",
     CLOSE_POPUP: "CLOSE_POPUP",
@@ -71,6 +72,8 @@ export function iTunesReducer(state, action) {
             } else {
                 return {...state, error: action.albums, loading: false};
             }
+        case iTunesActions.SET_GENRE:
+            return {...state, genre: rest.genre};
         case iTunesActions.OPEN_POPUP:
             return {
                 ...state,
