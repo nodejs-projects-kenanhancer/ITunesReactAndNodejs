@@ -1,0 +1,42 @@
+{
+  "name": "aulatunes-srohyc",
+  "version": "1.0.0",
+  "description": "Aula Education is branching into the music business and needs a new website. Build it using JavaScript and React.",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc --build tsconfig.json",
+    "start": "node .",
+    "dev": "npx ts-node ./src/index.ts",
+    "dev-test": "npx ts-node ./test/app.ts",
+    "watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "watch-test-dev": "nodemon --watch . --ext ts --exec \"mocha -r ts-node/register test/**/*.spec.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://aula-education-srohyc@git.codesubmit.io/aula-education/aulatunes-srohyc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/cors": "^2.8.9",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.11",
+    "@types/helmet": "^4.0.0",
+    "@types/mocha": "^8.2.0",
+    "mocha": "^8.2.1",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}

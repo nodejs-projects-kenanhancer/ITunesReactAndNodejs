@@ -1,0 +1,42 @@
+version: '3.4'
+
+services:
+  aulatunessrohyc_api:
+    image: aulatunessrohyc_api
+    container_name: aulatunessrohyc_api
+    build:
+      context: api
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3002
+      - TOP_ALBUMS_URL=https://itunes.apple.com/us/rss/topalbums
+      - TOP_SONGS_URL=https://itunes.apple.com/us/rss/topsongs
+    ports:
+      - 3002:3002
+    expose:
+      - "3002"
+    networks:
+      backend:
+
+  aulatunessrohyc_client:
+    image: aulatunessrohyc_client
+    container_name: aulatunessrohyc_client
+    build:
+      context: client
+      dockerfile: ./Dockerfile
+      args:
+        - REACT_APP_TOP_ALBUMS_URL=http://localhost:3002/aula/api/gettopalbums
+        - REACT_APP_TOP_SONGS_URL=http://localhost:3002/aula/api/topsongs
+        - REACT_APP_LIMIT=100
+    restart: unless-stopped
+    ports:
+      - 3004:80
+    expose:
+      - "3004"
+    networks:
+      backend:
+
+networks:
+  backend:
