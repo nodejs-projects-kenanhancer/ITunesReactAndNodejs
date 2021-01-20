@@ -8,24 +8,28 @@ export function itunesRoute(): NextHandleFunction {
     const router: IRouter = Router();
     const itunesController: IITunesController = new ITunesController();
 
-    router.get("/gettopalbums/limit=:limit/:output",
+    router.get("/gettopalbums/limit=:limit/genre=:genre/:output",
         asyncHandler(async (request: Request, response: Response, next: any): Promise<void> => {
 
-            const limit = parseInt(request.params.limit, 10);
+            const limit: number = parseInt(request.params.limit, 10);
 
-            const res: any = await itunesController.getTopAlbums(limit);
+            const genre: number = parseInt(request.params.genre, 10);
+
+            const res: any = await itunesController.getTopAlbums(limit, genre);
 
             response.send(res);
 
             return next;
         }));
 
-    router.get("/gettopsongs/limit=:limit/:output",
+    router.get("/gettopsongs/limit=:limit/genre=:genre/:output",
         asyncHandler(async (request: Request, response: Response, next: any): Promise<void> => {
 
-            const limit = parseInt(request.params.limit, 10);
+            const limit: number = parseInt(request.params.limit, 10);
 
-            const res: any = await itunesController.getTopSongs(limit);
+            const genre: number = parseInt(request.params.genre, 10);
+
+            const res: any = await itunesController.getTopSongs(limit, genre);
 
             response.send(res);
 

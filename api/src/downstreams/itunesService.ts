@@ -3,11 +3,11 @@ import {Env} from "../constants";
 
 export class ITunesService {
 
-    static async getTopAlbums(limit: number): Promise<any> {
+    static async getTopAlbums(limit: number, genre: number): Promise<any> {
 
         const requestArgs = {
             method: "GET",
-            url: Env.TOP_ALBUMS_URL(limit),
+            url: Env.TOP_ALBUMS_URL(limit, genre),
             payload: undefined,
             headers: {}
         };
@@ -17,11 +17,11 @@ export class ITunesService {
         return res;
     }
 
-    static async getTopSongs(limit: number): Promise<any> {
+    static async getTopSongs(limit: number, genre: number): Promise<any> {
 
         const requestArgs = {
             method: "GET",
-            url: Env.TOP_SONGS_URL(limit),
+            url: Env.TOP_SONGS_URL(limit, genre),
             payload: undefined,
             headers: {}
         };
